@@ -353,19 +353,13 @@ template removeAssociatedObjects*(obj: ID) =
 proc objc_msgSend*(self: ID; op: SEL): ID {.cdecl, importc, discardable, varargs.}
 proc objc_msgSend_fpret*(self: ID; op: SEL): cdouble {.cdecl, importc, varargs.}
 
-when defined(arm64):
-  proc objc_msgSend_stret*(self: ID; op: SEL) {.inline.} = objc_msgSend(self, op)
-else:
-  proc objc_msgSend_stret*(self: ID; op: SEL) {.cdecl, importc, varargs.}
+proc objc_msgSend_stret*(self: ID; op: SEL) {.cdecl, importc, varargs.}
 
 proc objc_msgSendSuper*(super: var ObjcSuper; op: SEL): ID {.cdecl, importc, varargs.}
 proc objc_msgSendSuper_stret*(super: var ObjcSuper; op: SEL) {.cdecl, importc, varargs.}
 proc method_invoke*(receiver: ID; m: Method): ID {.cdecl, importc, varargs.}
 
-when defined(arm64):
-  template method_invoke_stret*(receiver: ID; m: Method) = method_invoke(receiver, m)
-else:
-  proc method_invoke_stret*(receiver: ID; m: Method) {.cdecl, importc, varargs.}
+proc method_invoke_stret*(receiver: ID; m: Method) {.cdecl, importc, varargs.}
 
 proc sel_getName*(sel: SEL): cstring {.cdecl, importc.}
 template getName*(sel: SEL): untyped =
@@ -717,7 +711,8 @@ macro objcAux(flavor: static[ObjCMsgSendFlavor], firstArg: typed, name: static[s
     let performSend = ident"performSend"
 
     let senderParams = newNimNode(nnkFormalParams)
-    if flavor == stret:
+
+    if flavor == stret and not defined(arm64):
         senderParams.add(ident"void")
         senderParams.add(newIdentDefs(ident"_", ident"pointer"))
     else:
@@ -730,7 +725,7 @@ macro objcAux(flavor: static[ObjCMsgSendFlavor], firstArg: typed, name: static[s
 
     let objcSendProc = case flavor
         of fpret: bindSym"objc_msgSend_fpret"
-        of stret:
+        of stret: 
           when defined(arm64):
             bindSym"objc_msgSend"
           else:
