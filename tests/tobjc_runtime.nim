@@ -1,6 +1,6 @@
 import darwin/objc/runtime
 import darwin/foundation/nsgeometry
-import std/macros
+
 type
     NSNumber = ptr object of NSObject
     NSValue = ptr object of NSObject

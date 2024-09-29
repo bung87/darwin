@@ -133,7 +133,7 @@ proc propertyList*(cls: ObjcClass): seq[Property] =
   c_free(props)
 
 proc class_addMethod(cls: ObjcClass; name: SEL; imp: IMP; types: cstring): bool {.cdecl, importc.}
-template addMethod*(cls: ObjcClass; name: SEL; imp: IMP; types: string): typed =
+template addMethod*(cls: ObjcClass; name: SEL; imp: IMP; types: string): bool =
   class_addMethod(cls, name, imp, types.cstring)
 
 proc class_getInstanceMethod(cls: ObjcClass; name: SEL): Method {.cdecl, importc.}
@@ -740,7 +740,7 @@ macro objcAux(flavor: static[ObjCMsgSendFlavor], firstArg: typed, name: static[s
 
     let (args, argTypes) = body.getArgsAndTypes()
 
-    if flavor == stret:
+    if flavor == stret and not defined(arm64):
         call.add(newCall("addr", ident"result"))
 
     call.add(firstArg)
