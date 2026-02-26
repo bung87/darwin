@@ -1,4 +1,4 @@
-import darwin / core_foundation / [ cfurl, cferror ]
+import ../core_foundation / [ cfurl, cferror ]
 
 type
     CTFontManagerScope* {.size: sizeof(uint32).} = enum

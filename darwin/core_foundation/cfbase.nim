@@ -19,6 +19,14 @@ type
     CFString* = ptr object of CFPropertyList
     CFMutableString* = ptr object of CFString
 
+    CFData* = ptr object of CFObject
+    CFMutableData* = ptr object of CFData
+
+    CFCharacterSet* = ptr object of CFObject
+    CFMutableCharacterSet* = ptr object of CFCharacterSet
+
+    CFSet* = ptr object of CFObject
+    CFMutableSet* = ptr object of CFSet
 
     Boolean* = uint8
     UniChar* = uint16
