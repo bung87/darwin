@@ -1,2 +1,2 @@
-import core_text / [ctfont_manager, ctfont, ctfont_descriptor]
-export ctfont_manager, ctfont, ctfont_descriptor
+import core_text / [ctfont_manager, ctfont, ctfont_descriptor, ctstringattributes]
+export ctfont_manager, ctfont, ctfont_descriptor, ctstringattributes
