@@ -47,6 +47,8 @@ proc CTFontCreateWithFontDescriptor*(descriptor: CTFontDescriptor, size: CGFloat
 proc CTFontCreateWithNameAndOptions*(name: CFString, size: CGFloat, matrix: ptr CGAffineTransform, options: CTFontOptions): CTFont {.importc.}
 proc CTFontCreateWithFontDescriptorAndOptions*(descriptor: CTFontDescriptor, size: CGFloat, matrix: ptr CGAffineTransform, options: CTFontOptions): CTFont {.importc.}
 proc CTFontCreateUIFontForLanguage*(uiType: CTFontUIFontType, size: CGFloat, language: CFString): CTFont {.importc.}
+proc CTFontCreateForString*(currentFont: CTFont, string: CFString, range: CFRange): CTFont {.importc.}
+proc CTFontCreateForStringWithLanguage*(currentFont: CTFont, string: CFString, range: CFRange, language: CFString): CTFont {.importc.}
 proc createCopyWithAttributes*(font: CTFont, size: CGFloat, matrix: ptr CGAffineTransform, attributes: CTFontDescriptor): CTFont {.importc: "CTFontCreateCopyWithAttributes".}
 proc createCopyWithSymbolicTraits*(font: CTFont, size: CGFloat, matrix: ptr CGAffineTransform, symTraitValue: CTFontSymbolicTraits, symTraitMask: CTFontSymbolicTraits): CTFont {.importc: "CTFontCreateCopyWithSymbolicTraits".}
 proc createCopyWithFamily*(font: CTFont, size: CGFloat, matrix: ptr CGAffineTransform, family: CFString): CTFont {.importc: "CTFontCreateCopyWithFamily".}
